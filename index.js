@@ -108,15 +108,51 @@ positioning(wolf3);
 let food= new Food();
 random= Math.round(Math.random()*5)+1;
 positioning(food);
+
+let food2= new Food();
+random= Math.round(Math.random()*5)+1;
+positioning(food2);
+
+
 let index1=1;
 writeMatrix();
 
+let near = 0;
+nearFood(food,food2,wolf1,wolf2,wolf3);
+if (near===1) {
+    move(wolf1, wolf2, wolf3, food,food2);
+}
+else {
+    move(wolf1, wolf2, wolf3, food2,food);
+}
+function nearFood(food1,food2,wolf1,wolf2,wolf3) {
+    let waysToFood1=[];
+    let waysToFood2=[];
+    waysToFood1.push(Math.abs(wolf1.X-food1.X)+ Math.abs(wolf1.Y-food1.Y))
+    waysToFood1.push(Math.abs(wolf2.X-food1.X)+ Math.abs(wolf2.Y-food1.Y))
+    waysToFood1.push(Math.abs(wolf3.X-food1.X)+ Math.abs(wolf3.Y-food1.Y))
 
-move(wolf1,wolf2,wolf3,food);
+    waysToFood2.push(Math.abs(wolf1.X-food2.X)+ Math.abs(wolf1.Y-food2.Y))
+    waysToFood2.push(Math.abs(wolf2.X-food2.X)+ Math.abs(wolf2.Y-food2.Y))
+    waysToFood2.push(Math.abs(wolf3.X-food2.X)+ Math.abs(wolf3.Y-food2.Y))
 
+    while (waysToFood2.length > 0 &&waysToFood1.length>0){
+        if (waysToFood1[0]>=waysToFood2[0]){
+            waysToFood1.splice(0,1)
+        }
+        else {
+            waysToFood2.splice(0,1)
+        }
+    }
+    if (waysToFood2.length === 0){
+        near = 1;
+    }
+    else {
+        near= 2;
+    }
+}
 
-
-function move(wolf1,wolf2,wolf3,food) {
+function move(wolf1,wolf2,wolf3,food,notNearFood) {
     wolf1.value = Math.abs(wolf1.X-food.X)+ Math.abs(wolf1.Y-food.Y);
     wolf2.value = Math.abs(wolf2.X-food.X)+ Math.abs(wolf2.Y-food.Y);
     wolf3.value = Math.abs(wolf3.X-food.X)+ Math.abs(wolf3.Y-food.Y);
@@ -128,7 +164,8 @@ function move(wolf1,wolf2,wolf3,food) {
         while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
             index1++;
             targetingLeader(wolf1, food);
-            targetingOmegas(wolf2, wolf3, wolf1);
+            writeMatrix();
+            targetingOmegas(wolf2, wolf3, wolf1,notNearFood);
             writeMatrix();
 
         }
@@ -139,7 +176,8 @@ function move(wolf1,wolf2,wolf3,food) {
         while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
             index1++
             targetingLeader(wolf2, food);
-            targetingOmegas(wolf1, wolf3, wolf2);
+            writeMatrix();
+            targetingOmegas(wolf1, wolf3, wolf2,notNearFood);
             writeMatrix();
         }
 
@@ -149,7 +187,8 @@ function move(wolf1,wolf2,wolf3,food) {
         while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
             index1++
             targetingLeader(wolf3, food);
-            targetingOmegas(wolf1, wolf2, wolf3);
+            writeMatrix();
+            targetingOmegas(wolf1, wolf2, wolf3,notNearFood);
             writeMatrix();
         }
 
@@ -160,7 +199,8 @@ function move(wolf1,wolf2,wolf3,food) {
             while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
                 index1++
                 targetingLeader(wolf1, food);
-                targetingOmegas(wolf2, wolf3, wolf1);
+                writeMatrix();
+                targetingOmegas(wolf2, wolf3, wolf1,notNearFood);
                 writeMatrix();
             }
         }
@@ -169,7 +209,8 @@ function move(wolf1,wolf2,wolf3,food) {
             while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
                 index1++
                 targetingLeader(wolf2, food);
-                targetingOmegas(wolf1, wolf3, wolf2);
+                writeMatrix();
+                targetingOmegas(wolf1, wolf3, wolf2,notNearFood);
                 writeMatrix();
             }
 
@@ -181,7 +222,8 @@ function move(wolf1,wolf2,wolf3,food) {
             while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
                 index1++
                 targetingLeader(wolf3, food);
-                targetingOmegas(wolf2, wolf1, wolf3);
+                writeMatrix();
+                targetingOmegas(wolf2, wolf1, wolf3,notNearFood);
                 writeMatrix();
             }
 
@@ -191,7 +233,8 @@ function move(wolf1,wolf2,wolf3,food) {
             while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
                 index1++
                 targetingLeader(wolf2, food);
-                targetingOmegas(wolf1, wolf3, wolf2);
+                writeMatrix();
+                targetingOmegas(wolf1, wolf3, wolf2,notNearFood);
                 writeMatrix();
             }
 
@@ -203,7 +246,8 @@ function move(wolf1,wolf2,wolf3,food) {
             while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
                 index1++
                 targetingLeader(wolf1, food);
-                targetingOmegas(wolf2, wolf3, wolf1);
+                writeMatrix();
+                targetingOmegas(wolf2, wolf3, wolf1,notNearFood);
                 writeMatrix();
             }
 
@@ -213,7 +257,8 @@ function move(wolf1,wolf2,wolf3,food) {
             while (index1<4&&(wolf1.X!==wolf2.X || wolf1.X!==wolf3.X || wolf1.X!==wolf2.Y || wolf1.Y !== wolf3.Y )) {
                 index1++
                 targetingLeader(wolf3, food);
-                targetingOmegas(wolf2, wolf1, wolf3);
+                writeMatrix();
+                targetingOmegas(wolf2, wolf1, wolf3,notNearFood);
                 writeMatrix();
             }
 
@@ -242,51 +287,90 @@ function targetingLeader(wolf,food) {
         matrix[wolf.Y][wolf.X]=wolf.index+''
     }
 }
-function targetingOmegas(wolfOmega1,wolfOmega2,alpha) {
+function targetingOmegas(wolfOmega1,wolfOmega2,alpha,notNearFood) {
  //   write(wolfOmega1.index+' '+wolfOmega1.X+wolfOmega1.Y);
  //   write(wolfOmega2.index+' '+wolfOmega2.X+wolfOmega2.Y);
  //   write(alpha.index+' '+alpha.X+alpha.Y);
-
-    if (wolfOmega1.Y < alpha.Y){
-        matrix[wolfOmega1.Y][wolfOmega1.X]='0';
+    let probab = Math.round(Math.random()*100);
+if (probab>30) {
+    if (wolfOmega1.Y < alpha.Y) {
+        matrix[wolfOmega1.Y][wolfOmega1.X] = '0';
         wolfOmega1.Y++;
-        matrix[wolfOmega1.Y][wolfOmega1.X]=wolfOmega1.index+''
-    }
-    else if (wolfOmega1.Y > alpha.Y){
-        matrix[wolfOmega1.Y][wolfOmega1.X]='0';
+        matrix[wolfOmega1.Y][wolfOmega1.X] = wolfOmega1.index + ''
+    } else if (wolfOmega1.Y > alpha.Y) {
+        matrix[wolfOmega1.Y][wolfOmega1.X] = '0';
         wolfOmega1.Y--;
-        matrix[wolfOmega1.Y][wolfOmega1.X]=wolfOmega1.index+''
-    }
-    else if (wolfOmega1.X > alpha.X){
-        matrix[wolfOmega1.Y][wolfOmega1.X]='0';
+        matrix[wolfOmega1.Y][wolfOmega1.X] = wolfOmega1.index + ''
+    } else if (wolfOmega1.X > alpha.X) {
+        matrix[wolfOmega1.Y][wolfOmega1.X] = '0';
         wolfOmega1.X--;
-        matrix[wolfOmega1.Y][wolfOmega1.X]=wolfOmega1.index+''
-    }
-    else if (wolfOmega1.X < alpha.X){
-        matrix[wolfOmega1.Y][wolfOmega1.X]='0';
+        matrix[wolfOmega1.Y][wolfOmega1.X] = wolfOmega1.index + ''
+    } else if (wolfOmega1.X < alpha.X) {
+        matrix[wolfOmega1.Y][wolfOmega1.X] = '0';
         wolfOmega1.X++;
-        matrix[wolfOmega1.Y][wolfOmega1.X]=wolfOmega1.index+''
+        matrix[wolfOmega1.Y][wolfOmega1.X] = wolfOmega1.index + ''
+        }
     }
-    if (wolfOmega2.Y < alpha.Y){
-        matrix[wolfOmega2.Y][wolfOmega2.X]='0';
+else {
+    write('Omega stops listening to Alpha')
+    if (wolfOmega1.Y < notNearFood.Y) {
+        matrix[wolfOmega1.Y][wolfOmega1.X] = '0';
+        wolfOmega1.Y++;
+        matrix[wolfOmega1.Y][wolfOmega1.X] = wolfOmega1.index + ''
+    } else if (wolfOmega1.Y > notNearFood.Y) {
+        matrix[wolfOmega1.Y][wolfOmega1.X] = '0';
+        wolfOmega1.Y--;
+        matrix[wolfOmega1.Y][wolfOmega1.X] = wolfOmega1.index + ''
+    } else if (wolfOmega1.X > notNearFood.X) {
+        matrix[wolfOmega1.Y][wolfOmega1.X] = '0';
+        wolfOmega1.X--;
+        matrix[wolfOmega1.Y][wolfOmega1.X] = wolfOmega1.index + ''
+    } else if (wolfOmega1.X < notNearFood.X) {
+        matrix[wolfOmega1.Y][wolfOmega1.X] = '0';
+        wolfOmega1.X++;
+        matrix[wolfOmega1.Y][wolfOmega1.X] = wolfOmega1.index + ''
+    }
+}
+if (probab < 70) {
+    if (wolfOmega2.Y < alpha.Y) {
+        matrix[wolfOmega2.Y][wolfOmega2.X] = '0';
         wolfOmega2.Y++;
-        matrix[wolfOmega2.Y][wolfOmega2.X]=wolfOmega2.index+''
-    }
-    else if (wolfOmega2.Y > alpha.Y){
-        matrix[wolfOmega2.Y][wolfOmega2.X]='0';
+        matrix[wolfOmega2.Y][wolfOmega2.X] = wolfOmega2.index + ''
+    } else if (wolfOmega2.Y > alpha.Y) {
+        matrix[wolfOmega2.Y][wolfOmega2.X] = '0';
         wolfOmega2.Y--;
-        matrix[wolfOmega2.Y][wolfOmega2.X]=wolfOmega2.index+''
-    }
-    else if (wolfOmega2.X > alpha.X){
-        matrix[wolfOmega2.Y][wolfOmega2.X]='0';
+        matrix[wolfOmega2.Y][wolfOmega2.X] = wolfOmega2.index + ''
+    } else if (wolfOmega2.X > alpha.X) {
+        matrix[wolfOmega2.Y][wolfOmega2.X] = '0';
         wolfOmega2.X--;
-        matrix[wolfOmega2.Y][wolfOmega2.X]=wolfOmega2.index+''
-    }
-    else if (wolfOmega2.X < alpha.X){
-        matrix[wolfOmega2.Y][wolfOmega2.X]='0';
+        matrix[wolfOmega2.Y][wolfOmega2.X] = wolfOmega2.index + ''
+    } else if (wolfOmega2.X < alpha.X) {
+        matrix[wolfOmega2.Y][wolfOmega2.X] = '0';
         wolfOmega2.X++;
-        matrix[wolfOmega2.Y][wolfOmega2.X]=wolfOmega2.index+''
+        matrix[wolfOmega2.Y][wolfOmega2.X] = wolfOmega2.index + ''
     }
+}
+else {
+    write('Omega stops listening to Alpha')
+    if (wolfOmega2.Y < notNearFood.Y) {
+        matrix[wolfOmega2.Y][wolfOmega2.X] = '0';
+        wolfOmega2.Y++;
+        matrix[wolfOmega2.Y][wolfOmega2.X] = wolfOmega2.index + ''
+    } else if (wolfOmega2.Y > notNearFood.Y) {
+        matrix[wolfOmega2.Y][wolfOmega2.X] = '0';
+        wolfOmega2.Y--;
+        matrix[wolfOmega2.Y][wolfOmega2.X] = wolfOmega2.index + ''
+    } else if (wolfOmega2.X > notNearFood.X) {
+        matrix[wolfOmega2.Y][wolfOmega2.X] = '0';
+        wolfOmega2.X--;
+        matrix[wolfOmega2.Y][wolfOmega2.X] = wolfOmega2.index + ''
+    } else if (wolfOmega2.X < notNearFood.X) {
+        matrix[wolfOmega2.Y][wolfOmega2.X] = '0';
+        wolfOmega2.X++;
+        matrix[wolfOmega2.Y][wolfOmega2.X] = wolfOmega2.index + ''
+    }
+
+}
 }
 function positioning(wolf) {
 //    write(random);
